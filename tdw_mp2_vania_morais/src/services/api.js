@@ -1,6 +1,7 @@
 import axios from 'axios';
 import md5 from 'md5';
 
+
 const BASE_URL = 'https://gateway.marvel.com/v1/public';
 const PUBLIC_KEY = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
 const PRIVATE_KEY = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
@@ -19,11 +20,12 @@ const generateHash = () => {
       apikey: PUBLIC_KEY,
       ts: timestamp,
       hash,
-      limit: 30,
+      limit: 12,
+      offset: params.page ? (params.page - 1) * 30 : 0, // Calcula o deslocamento baseado na página
     };
   
     const response = await axios.get(`${BASE_URL}/characters`, {
-      params: { ...defaultParams, ...params },
+      params: defaultParams,
     });
   
     return response.data.data.results; // Retorna apenas os personagens

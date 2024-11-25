@@ -9,3 +9,31 @@
     font-size: 1.4rem;
     text-align: center;
   }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 10px;
+    padding: 10px 15px;
+    background-color: #d22d2d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Bangers', cursive;
+  }
+  
+  .pagination button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+  }
+  
+  .pagination span {
+    font-size: 1.2rem;
+    font-family: 'Bangers', cursive;
+  }
