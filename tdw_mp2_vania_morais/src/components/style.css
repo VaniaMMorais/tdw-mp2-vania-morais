@@ -1,0 +1,41 @@
+.card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+  
+  .card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
+  
+  .card-description {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  
+  .filter-bar {
+    margin: 1rem;
+    text-align: center;
+  }
+  
+  .filter-bar select {
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
