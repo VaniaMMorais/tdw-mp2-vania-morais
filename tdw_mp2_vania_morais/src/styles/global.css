@@ -1,0 +1,11 @@
+.list-page {
+    background-color: var(--white);
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    color: var(--black);
+  }
+  
+  .list-page p {
+    font-size: 1.4rem;
+    text-align: center;
+  }
