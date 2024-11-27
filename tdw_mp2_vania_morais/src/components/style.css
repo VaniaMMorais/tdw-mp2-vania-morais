@@ -125,3 +125,47 @@ h1, h2, .card-title {
     transform: rotate(360deg);
   }
 }
+
+
+.comic-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #e62429; /* Vermelho Marvel */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  font-family: "Comic Sans MS", "Comic Neue", sans-serif; /* Fonte estilo Comic */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-logo a {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 2px 2px #000;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li a {
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+  text-shadow: 2px 2px #000;
+}
+
+.navbar-links li a:hover {
+  color: #ffd700; /* Amarelo estilo comic */
+  transform: scale(1.1);
+}
