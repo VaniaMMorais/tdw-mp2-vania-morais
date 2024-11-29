@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import CardList from '../components/CardList';
 import Loading from '../components/Loading';
 import "../styles/global.css"
@@ -6,11 +7,16 @@ import { useFetchCharactersQuery } from '../redux/api/apiSlice';
 
 function ListPage() {
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError, refetch } = useFetchCharactersQuery({ page });
+  const { data, isLoading, isError } = useFetchCharactersQuery({ page });
   const [loading, setLoading] = useState(false);
-  console.log("API Data:", data); // Log dos dados retornados pela API
-  console.log("Is Loading:", isLoading); // Verificar se está carregando
   const characters = data?.data?.results || [];
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
+
+  const getPageFromQuery = () => {
+    const query = new URLSearchParams(location.search);
+    return parseInt(query.get("page")) || 1;
+  };
 
   useEffect(() => {
     if (isLoading) {
@@ -20,11 +26,17 @@ function ListPage() {
     }
   }, [isLoading]);
 
+  useEffect(() => {
+    const queryPage = getPageFromQuery();
+    if (queryPage !== page) {
+      setPage(queryPage); // Atualiza a página ao navegar diretamente
+    }
+  }, [location.search]);
+
   const handlePageChange = (newPage) => {
-    console.log("ENTREI AQUI");
-    setLoading(true); // Força o estado de loading para true
-    setPage(newPage); 
-    // Temporizador para garantir pelo menos 1 segundo de loading
+    setLoading(true); 
+    setPage(newPage);
+    navigate(`?page=${newPage}`);
     setTimeout(() => {
       
       setLoading(false)

@@ -32,8 +32,37 @@ export const marvelApi = createApi({
         };
       },
     }),
-  }),
-});
+    fetchCharacterById: builder.query({
+        query: (id) => {
+          const { timestamp, hash } = generateHash();
+          return {
+            url: `/characters/${id}`,
+            params: {
+              ts: timestamp,
+              apikey: PUBLIC_KEY,
+              hash,
+            },
+          };
+        },
+      }),
+      fetchComicsByCharacter: builder.query({
+        query: (characterId) => {
+          const { timestamp, hash } = generateHash();
+          return {
+            url: `/characters/${characterId}/comics`,
+            params: {
+              ts: timestamp,
+              apikey: PUBLIC_KEY,
+              hash,
+              limit: 12,
+            },
+          };
+        },
+      }),
+    }),
+  });
 
-
-export const { useFetchCharactersQuery } = marvelApi;
+  
+  
+  export const { useFetchCharactersQuery, useFetchCharacterByIdQuery, useFetchComicsByCharacterQuery } = marvelApi;
+  
