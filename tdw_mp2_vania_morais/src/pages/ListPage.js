@@ -1,17 +1,90 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import styled from 'styled-components';
 import CardList from '../components/CardList';
 import Loading from '../components/Loading';
-import "../styles/global.css"
-import { useFetchCharactersQuery } from '../redux/api/apiSlice';
+import { useFetchCharactersQuery, useSearchCharactersQuery } from '../redux/api/apiSlice';
+
+// Styled Components
+const PageContainer = styled.div`
+  background-color: var(--white);
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: var(--black);
+`;
+
+const Message = styled.p`
+  font-size: 1.4rem;
+  text-align: center;
+`;
+
+const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+`;
+
+const PaginationButton = styled.button`
+  margin: 0 10px;
+  padding: 10px 15px;
+  background-color: #d22d2d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Bangers', cursive;
+
+  &:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+  }
+`;
+
+const PaginationSpan = styled.span`
+  font-size: 1.2rem;
+  font-family: 'Bangers', cursive;
+`;
+
+const SearchBar = styled.div`
+  margin: 20px 0;
+`;
+
+const SearchInput = styled.input`
+  width: calc(100% - 20px); /* Deixa espaço lateral */
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+`;
 
 function ListPage() {
   const [page, setPage] = useState(1);
   const { data, isLoading, isError } = useFetchCharactersQuery({ page });
   const [loading, setLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isGlobalSearch, setIsGlobalSearch] = useState(false);
+  const { data: searchResults, isLoading: isSearchLoading } = useSearchCharactersQuery(searchTerm, {
+    skip: !isGlobalSearch || searchTerm.trim() === "",
+  });
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const characters = data?.data?.results || [];
-  const navigate = useNavigate(); 
-  const location = useLocation(); 
+  const globalCharacters = searchResults?.data?.results || [];
+  const charactersToDisplay = isGlobalSearch ? globalCharacters : characters;
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    if (event.key === "Enter" && searchTerm.trim() !== "") {
+      setIsGlobalSearch(true);
+      setLoading(true); // Ativa o loading ao iniciar a busca
+    } else if (searchTerm.trim() === "") {
+      setIsGlobalSearch(false);
+    }
+  };
 
   const getPageFromQuery = () => {
     const query = new URLSearchParams(location.search);
@@ -29,40 +102,59 @@ function ListPage() {
   useEffect(() => {
     const queryPage = getPageFromQuery();
     if (queryPage !== page) {
-      setPage(queryPage); // Atualiza a página ao navegar diretamente
+      setPage(queryPage);
     }
   }, [location.search]);
 
+  useEffect(() => {
+    if (!isSearchLoading) {
+      setLoading(false); // Desativa o loading ao finalizar a busca
+    }
+  }, [isSearchLoading]);
+
   const handlePageChange = (newPage) => {
-    setLoading(true); 
+    setLoading(true);
     setPage(newPage);
     navigate(`?page=${newPage}`);
     setTimeout(() => {
-      
-      setLoading(false)
-    }, 2000); 
+      setLoading(false);
+    }, 2000);
   };
 
   return (
-    <div className="list-page">
-      {loading && <Loading />}
-      {isError && <p>Erro ao carregar personagens.</p>}
-      {!loading && !isError && (
+    <PageContainer>
+      <SearchBar>
+        <SearchInput
+          type="text"
+          placeholder="Search characters..."
+          value={searchTerm}
+          onChange={(event) => setSearchTerm(event.target.value)}
+          onKeyDown={handleSearch}
+        />
+      </SearchBar>
+      {(loading || isSearchLoading) && <Loading />}
+      {isError && <Message>Erro ao carregar personagens.</Message>}
+      {!loading && !isSearchLoading && (
         <>
-          <CardList characters={characters} />
-          <div className="pagination">
-            <button
-              onClick={() => handlePageChange(Math.max(page - 1, 1))}
-              disabled={page === 1}
-            >
-              Back
-            </button>
-            <span>Page {page}</span>
-            <button onClick={() => handlePageChange(page + 1)}>Next</button>
-          </div>
+          <CardList characters={charactersToDisplay} />
+          {!isGlobalSearch && (
+            <PaginationContainer>
+              <PaginationButton
+                onClick={() => handlePageChange(Math.max(page - 1, 1))}
+                disabled={page === 1}
+              >
+                Back
+              </PaginationButton>
+              <PaginationSpan>Page {page}</PaginationSpan>
+              <PaginationButton onClick={() => handlePageChange(page + 1)}>Next</PaginationButton>
+            </PaginationContainer>
+          )}
         </>
       )}
-    </div>
+      {!loading && !isSearchLoading && charactersToDisplay.length === 0 && (
+        <Message>No characters found.</Message>
+      )}
+    </PageContainer>
   );
 }
 

@@ -59,10 +59,25 @@ export const marvelApi = createApi({
           };
         },
       }),
+      searchCharacters: builder.query({
+        query: (name) => {
+          const { timestamp, hash } = generateHash();
+          return {
+            url: '/characters',
+            params: {
+              ts: timestamp,
+              apikey: PUBLIC_KEY,
+              hash,
+              nameStartsWith: name,
+              limit: 12, 
+            },
+          };
+        },
+      }),
     }),
   });
 
   
   
-  export const { useFetchCharactersQuery, useFetchCharacterByIdQuery, useFetchComicsByCharacterQuery } = marvelApi;
+  export const { useFetchCharactersQuery, useFetchCharacterByIdQuery, useFetchComicsByCharacterQuery, useSearchCharactersQuery } = marvelApi;
   

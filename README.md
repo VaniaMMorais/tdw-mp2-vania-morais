@@ -2,8 +2,6 @@
 Projeto feito no contexto da unidade curricular Tecnologias e Desenvolvimento Web
 
 ## To-do:
-- Fazer a página estática
-- Filtrar as personagens (ainda não sei com que parâmetros)
 - Fazer algo que envolva a interção dos utilizadores (dar favorito, fazer equipas: usar mais que uma api é valorizado)
 
 
