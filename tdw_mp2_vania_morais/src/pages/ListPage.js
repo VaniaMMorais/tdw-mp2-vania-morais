@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import CardList from "../components/CardList";
@@ -85,10 +85,10 @@ function ListPage() {
     }
   };
 
-  const getPageFromQuery = () => {
+  const getPageFromQuery = useCallback(() => {
     const query = new URLSearchParams(location.search);
     return parseInt(query.get("page")) || 1;
-  };
+  }, [location.search]);
 
   useEffect(() => {
     if (isLoading) {
@@ -103,7 +103,7 @@ function ListPage() {
     if (queryPage !== page) {
       setPage(queryPage);
     }
-  }, [location.search]);
+  }, [location.search, getPageFromQuery, page]);
 
   const handlePageChange = (newPage) => {
     setLoading(true);

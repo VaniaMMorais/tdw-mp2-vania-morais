@@ -6,9 +6,17 @@ import StaticPage from "./pages/StaticPage";
 import Navbar from "./components/Navbar";
 import FavoritesPage from "./pages/FavoritesPage";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import { createGlobalStyle } from "styled-components";
+
+
+const GlobalStyle = createGlobalStyle`
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
+`;
 
 function App() {
   return (
+    <>
+    <GlobalStyle /> 
     <Router>
       <Navbar />
       <Routes>
@@ -19,6 +27,7 @@ function App() {
         <Route path="/search" element={<SearchResultsPage />} />
       </Routes>
     </Router>
+    </>
   );
 }
 
