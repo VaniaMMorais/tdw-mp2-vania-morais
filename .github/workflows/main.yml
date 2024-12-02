@@ -1,0 +1,76 @@
+name: React App CI/CD
+
+on:
+  push:
+    branches:
+      - '**' # Executa em todos os commits em todas as branches
+  pull_request:
+    branches:
+      - '**' # Executa em todos os PRs
+  schedule:
+    - cron: "0 0 * * 1-5" # Executa às 00:00 de segunda a sexta
+  workflow_dispatch: # Permite acionar manualmente a pipeline
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Cache Node.js modules
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Checkout do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Configuração do Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+
+      # Instalar dependências
+      - name: Install dependencies
+        run: |
+          cd tdw_mp2_vania_morais
+          npm install
+
+      # Lint do código
+      - name: Run lint
+        run: |
+          cd tdw_mp2_vania_morais
+          npm run lint
+
+      # Formatação com Prettier
+      - name: Run Prettier
+        run: |
+          cd tdw_mp2_vania_morais
+          npm run prettier
+
+      # Build do projeto
+      - name: Build the project
+        run: |
+          cd tdw_mp2_vania_morais
+          npm run build
+        env:
+          REACT_APP_MARVEL_PUBLIC_KEY: ${{ secrets.REACT_APP_MARVEL_PUBLIC_KEY }}
+          REACT_APP_MARVEL_PRIVATE_KEY: ${{ secrets.REACT_APP_MARVEL_PRIVATE_KEY }}
+          REACT_APP_SuperHero_API_Access_Token: ${{ secrets.REACT_APP_SuperHero_API_Access_Token }}
+        if: success()
+
+      # Deploy no Netlify
+      - name: Deploy to Netlify
+        run: |
+          cd tdw_mp2_vania_morais
+          npx netlify-cli deploy --dir build --site ${{ secrets.NETLIFY_SITE_ID }} --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --prod
+        env:
+          REACT_APP_MARVEL_PUBLIC_KEY: ${{ secrets.REACT_APP_MARVEL_PUBLIC_KEY }}
+          REACT_APP_MARVEL_PRIVATE_KEY: ${{ secrets.REACT_APP_MARVEL_PRIVATE_KEY }}
+          REACT_APP_SuperHero_API_Access_Token: ${{ secrets.REACT_APP_SuperHero_API_Access_Token }}
+        if: success()
