@@ -6,7 +6,6 @@ const SUPERHERO_API_URL = `https://www.superheroapi.com/api.php/${process.env.RE
 export const searchSuperheroByName = async (name) => {
   try {
     const response = await axios.get(`${SUPERHERO_API_URL}/search/${name}`);
-    // console.log("SuperHero API Response:", response.data, name);
     return response.data.results; 
   } catch (error) {
     console.error("Erro ao buscar detalhes na SuperHero API:", error);

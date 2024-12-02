@@ -5,7 +5,7 @@ import CardList from '../components/CardList';
 import Loading from '../components/Loading';
 import { useFetchCharactersQuery, useSearchCharactersQuery } from '../redux/api/apiSlice';
 
-// Styled Components
+
 const PageContainer = styled.div`
   background-color: var(--white);
   padding: 20px;
@@ -64,7 +64,7 @@ function ListPage() {
   const { data, isLoading, isError } = useFetchCharactersQuery({ page });
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [isGlobalSearch, setIsGlobalSearch] = useState(false);
+  const [isGlobalSearch] = useState(false);
   const { data: searchResults, isLoading: isSearchLoading } = useSearchCharactersQuery(searchTerm, {
     skip: !isGlobalSearch || searchTerm.trim() === "",
   });
@@ -77,12 +77,8 @@ function ListPage() {
   const charactersToDisplay = isGlobalSearch ? globalCharacters : characters;
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-    if (event.key === "Enter" && searchTerm.trim() !== "") {
-      setIsGlobalSearch(true);
-      setLoading(true); // Ativa o loading ao iniciar a busca
-    } else if (searchTerm.trim() === "") {
-      setIsGlobalSearch(false);
+    if (event.key === "Enter" && event.target.value.trim() !== "") {
+      navigate(`/search?query=${event.target.value.trim()}`);
     }
   };
 
@@ -106,11 +102,6 @@ function ListPage() {
     }
   }, [location.search]);
 
-  useEffect(() => {
-    if (!isSearchLoading) {
-      setLoading(false); // Desativa o loading ao finalizar a busca
-    }
-  }, [isSearchLoading]);
 
   const handlePageChange = (newPage) => {
     setLoading(true);

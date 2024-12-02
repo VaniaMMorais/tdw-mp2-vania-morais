@@ -60,8 +60,9 @@ export const marvelApi = createApi({
         },
       }),
       searchCharacters: builder.query({
-        query: (name) => {
+        query: ({ name, page }) => {
           const { timestamp, hash } = generateHash();
+          const offset = (page - 1) * 12; 
           return {
             url: '/characters',
             params: {
@@ -69,7 +70,8 @@ export const marvelApi = createApi({
               apikey: PUBLIC_KEY,
               hash,
               nameStartsWith: name,
-              limit: 12, 
+              limit: 12,
+              offset,
             },
           };
         },

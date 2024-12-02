@@ -114,14 +114,6 @@ function StaticPage() {
             powers and abilities.
           </ListItem>
         </List>
-        <Paragraph>
-            To save other data:
-        </Paragraph>
-        <List>
-          <ListItem>
-            <strong>Firebase:</strong> Para guardar os favoritos
-          </ListItem>
-        </List>
       </Section>
 
       {/* Estrutura */}
@@ -133,6 +125,9 @@ function StaticPage() {
           </ListItem>
           <ListItem>
             Details page for each character with additional statistics and details
+          </ListItem>
+          <ListItem>
+            "Favorites" page with your favorite characters
           </ListItem>
           <ListItem>
             "About" page with information about the project

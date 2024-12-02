@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import "./style.css"; 
 import styled from "styled-components";
 
 const NavbarContainer = styled.nav`
@@ -59,6 +58,9 @@ function Navbar() {
       <Links>
         <LinkItem>
           <Link to="/">Home</Link>
+        </LinkItem>
+        <LinkItem>
+          <Link to="/favorites">Favorites</Link>
         </LinkItem>
         <LinkItem>
           <Link to="/about">About</Link>
