@@ -38,7 +38,10 @@ function SearchResultsPage() {
   const query = new URLSearchParams(location.search).get("query");
 
   const [page, setPage] = useState(1);
-  const { data, isLoading, isError } = useSearchCharactersQuery({ name: query, page });
+  const { data, isLoading, isError } = useSearchCharactersQuery({
+    name: query,
+    page,
+  });
 
   const [allCharacters, setAllCharacters] = useState([]);
 
@@ -49,12 +52,12 @@ function SearchResultsPage() {
   }, [data]);
 
   const handleLoadMore = () => {
-    setPage((prevPage) => prevPage + 1); 
+    setPage((prevPage) => prevPage + 1);
   };
 
   return (
     <PageContainer>
-      <h1>Search Results for "{query}"</h1>
+      <h1>Search Results for &quot;{query}&quot;</h1>
       {isLoading && <Loading />}
       {isError && <p>Error fetching results.</p>}
       {!isLoading && allCharacters.length === 0 && <p>No characters found.</p>}

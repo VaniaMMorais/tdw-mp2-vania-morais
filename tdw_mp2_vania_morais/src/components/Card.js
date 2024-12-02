@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components"
+import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const CardContainer = styled(Link)`
   background-color: #f4e0c8;
@@ -9,7 +10,9 @@ const CardContainer = styled(Link)`
   box-shadow: 5px 5px 0 #4a2c2a;
   text-align: center;
   padding: 20px;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
   text-decoration: none; /* Remove o sublinhado */
   color: inherit; /* Herda a cor para o texto */
 
@@ -39,7 +42,6 @@ const CardDescription = styled.p`
   font-size: 1.2rem;
 `;
 
-
 function Card({ character }) {
   return (
     <CardContainer as={Link} to={`/character/${character.id}`}>
@@ -55,5 +57,16 @@ function Card({ character }) {
   );
 }
 
+Card.propTypes = {
+  character: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    thumbnail: PropTypes.shape({
+      path: PropTypes.string.isRequired,
+      extension: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default Card;

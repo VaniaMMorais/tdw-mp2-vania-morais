@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import styled from 'styled-components';
-import CardList from '../components/CardList';
-import Loading from '../components/Loading';
-import { useFetchCharactersQuery, useSearchCharactersQuery } from '../redux/api/apiSlice';
-
+import styled from "styled-components";
+import CardList from "../components/CardList";
+import Loading from "../components/Loading";
+import {
+  useFetchCharactersQuery,
+  useSearchCharactersQuery,
+} from "../redux/api/apiSlice";
 
 const PageContainer = styled.div`
   background-color: var(--white);
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: var(--black);
 `;
 
@@ -33,7 +35,7 @@ const PaginationButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-family: 'Bangers', cursive;
+  font-family: "Bangers", cursive;
 
   &:disabled {
     background-color: #999;
@@ -43,7 +45,7 @@ const PaginationButton = styled.button`
 
 const PaginationSpan = styled.span`
   font-size: 1.2rem;
-  font-family: 'Bangers', cursive;
+  font-family: "Bangers", cursive;
 `;
 
 const SearchBar = styled.div`
@@ -65,9 +67,10 @@ function ListPage() {
   const [loading, setLoading] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isGlobalSearch] = useState(false);
-  const { data: searchResults, isLoading: isSearchLoading } = useSearchCharactersQuery(searchTerm, {
-    skip: !isGlobalSearch || searchTerm.trim() === "",
-  });
+  const { data: searchResults, isLoading: isSearchLoading } =
+    useSearchCharactersQuery(searchTerm, {
+      skip: !isGlobalSearch || searchTerm.trim() === "",
+    });
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -101,7 +104,6 @@ function ListPage() {
       setPage(queryPage);
     }
   }, [location.search]);
-
 
   const handlePageChange = (newPage) => {
     setLoading(true);
@@ -137,7 +139,9 @@ function ListPage() {
                 Back
               </PaginationButton>
               <PaginationSpan>Page {page}</PaginationSpan>
-              <PaginationButton onClick={() => handlePageChange(page + 1)}>Next</PaginationButton>
+              <PaginationButton onClick={() => handlePageChange(page + 1)}>
+                Next
+              </PaginationButton>
             </PaginationContainer>
           )}
         </>

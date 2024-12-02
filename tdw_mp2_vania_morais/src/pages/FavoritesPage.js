@@ -1,12 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import CardList from '../components/CardList';
-import styled from 'styled-components';
+import React from "react";
+import { useSelector } from "react-redux";
+import CardList from "../components/CardList";
+import styled from "styled-components";
 
 const PageContainer = styled.div`
   background-color: var(--white);
   padding: 20px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: var(--black);
 `;
 
@@ -24,7 +24,7 @@ function FavoritesPage() {
       {favorites.length > 0 ? (
         <CardList characters={favorites} />
       ) : (
-        <Message>You don't have any favorites yet!</Message>
+        <Message>You don&apos;t have any favorites yet!</Message>
       )}
     </PageContainer>
   );

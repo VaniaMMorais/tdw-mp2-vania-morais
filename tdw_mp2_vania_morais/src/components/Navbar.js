@@ -7,7 +7,7 @@ const NavbarContainer = styled.nav`
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: #e62429; 
+  background: #e62429;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   font-family: "Comic Sans MS", "Comic Neue", sans-serif;
   position: sticky;
@@ -40,7 +40,9 @@ const LinkItem = styled.li`
     font-size: 1.5rem;
     color: #fff;
     text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition:
+      color 0.3s ease,
+      transform 0.3s ease;
     text-shadow: 2px 2px #000;
     &:hover {
       color: #ffd700; /* Amarelo estilo comic */

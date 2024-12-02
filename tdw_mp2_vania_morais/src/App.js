@@ -14,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<ListPage />} />
         <Route path="/character/:id" element={<CharacterDetailPage />} />
-        <Route path="/about" element={<StaticPage/>}/>
+        <Route path="/about" element={<StaticPage />} />
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/search" element={<SearchResultsPage />} />
       </Routes>

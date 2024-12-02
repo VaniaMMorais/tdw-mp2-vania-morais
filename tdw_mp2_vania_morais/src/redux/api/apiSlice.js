@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import md5 from 'md5';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import md5 from "md5";
 
 const PUBLIC_KEY = process.env.REACT_APP_MARVEL_PUBLIC_KEY;
 const PRIVATE_KEY = process.env.REACT_APP_MARVEL_PRIVATE_KEY;
@@ -11,17 +11,17 @@ const generateHash = () => {
 };
 
 export const marvelApi = createApi({
-  reducerPath: 'marvelApi',
+  reducerPath: "marvelApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://gateway.marvel.com/v1/public',
+    baseUrl: "https://gateway.marvel.com/v1/public",
   }),
   endpoints: (builder) => ({
     fetchCharacters: builder.query({
       query: ({ page = 1 }) => {
         const { timestamp, hash } = generateHash();
-        const offset = (page - 1) * 12; 
+        const offset = (page - 1) * 12;
         return {
-          url: '/characters',
+          url: "/characters",
           params: {
             ts: timestamp,
             apikey: PUBLIC_KEY,
@@ -33,53 +33,55 @@ export const marvelApi = createApi({
       },
     }),
     fetchCharacterById: builder.query({
-        query: (id) => {
-          const { timestamp, hash } = generateHash();
-          return {
-            url: `/characters/${id}`,
-            params: {
-              ts: timestamp,
-              apikey: PUBLIC_KEY,
-              hash,
-            },
-          };
-        },
-      }),
-      fetchComicsByCharacter: builder.query({
-        query: (characterId) => {
-          const { timestamp, hash } = generateHash();
-          return {
-            url: `/characters/${characterId}/comics`,
-            params: {
-              ts: timestamp,
-              apikey: PUBLIC_KEY,
-              hash,
-              limit: 12,
-            },
-          };
-        },
-      }),
-      searchCharacters: builder.query({
-        query: ({ name, page }) => {
-          const { timestamp, hash } = generateHash();
-          const offset = (page - 1) * 12; 
-          return {
-            url: '/characters',
-            params: {
-              ts: timestamp,
-              apikey: PUBLIC_KEY,
-              hash,
-              nameStartsWith: name,
-              limit: 12,
-              offset,
-            },
-          };
-        },
-      }),
+      query: (id) => {
+        const { timestamp, hash } = generateHash();
+        return {
+          url: `/characters/${id}`,
+          params: {
+            ts: timestamp,
+            apikey: PUBLIC_KEY,
+            hash,
+          },
+        };
+      },
     }),
-  });
+    fetchComicsByCharacter: builder.query({
+      query: (characterId) => {
+        const { timestamp, hash } = generateHash();
+        return {
+          url: `/characters/${characterId}/comics`,
+          params: {
+            ts: timestamp,
+            apikey: PUBLIC_KEY,
+            hash,
+            limit: 12,
+          },
+        };
+      },
+    }),
+    searchCharacters: builder.query({
+      query: ({ name, page }) => {
+        const { timestamp, hash } = generateHash();
+        const offset = (page - 1) * 12;
+        return {
+          url: "/characters",
+          params: {
+            ts: timestamp,
+            apikey: PUBLIC_KEY,
+            hash,
+            nameStartsWith: name,
+            limit: 12,
+            offset,
+          },
+        };
+      },
+    }),
+  }),
+});
 
-  
-  
-  export const { useFetchCharactersQuery, useFetchCharacterByIdQuery, useFetchComicsByCharacterQuery, useSearchCharactersQuery } = marvelApi;
-  
+export const {
+  useFetchCharactersQuery,
+  useFetchCharacterByIdQuery,
+  useFetchComicsByCharacterQuery,
+  useSearchCharactersQuery,
+} = marvelApi;

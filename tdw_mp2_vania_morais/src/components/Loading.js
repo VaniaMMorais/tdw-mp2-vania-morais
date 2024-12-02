@@ -33,7 +33,7 @@ const Spinner = styled.div`
   align-items: center;
   justify-content: center;
   border: 10px solid #f3f3f3;
-  border-top: 10px solid #e62429; 
+  border-top: 10px solid #e62429;
   border-radius: 50%;
   animation: ${spin} 1s linear infinite;
   font-size: 3rem;

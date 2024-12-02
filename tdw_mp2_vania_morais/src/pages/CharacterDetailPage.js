@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useFetchCharacterByIdQuery } from "../redux/api/apiSlice";
 import { searchSuperheroByName } from "../redux/api/superHeroAPI";
 import { useFetchComicsByCharacterQuery } from "../redux/api/apiSlice";
-import { useSelector, useDispatch } from 'react-redux';
-import { addFavorite, removeFavorite } from '../redux/api/favoritesSlice';
+import { useSelector, useDispatch } from "react-redux";
+import { addFavorite, removeFavorite } from "../redux/api/favoritesSlice";
 import Loading from "../components/Loading";
 import styled from "styled-components";
 
@@ -55,7 +55,6 @@ const CharacterDescription = styled.p`
   margin-top: 10px;
 `;
 
-
 const PowerStats = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -83,7 +82,6 @@ const PowerStatItem = styled.div`
     font-weight: bold;
   }
 `;
-
 
 const ComicsSection = styled.div`
   display: grid;
@@ -117,7 +115,6 @@ const ComicCard = styled.div`
     font-weight: bold;
   }
 `;
-
 
 const SectionGrid = styled.div`
   display: grid;
@@ -171,25 +168,25 @@ const FavoriteButton = styled.button`
   }
 `;
 
-
 function CharacterDetailPage() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { data, isLoading, isError } = useFetchCharacterByIdQuery(id);
   const [superheroDetails, setSuperheroDetails] = useState(null);
   const [superheroLoading, setSuperheroLoading] = useState(true);
-  const { data: comicsData, isLoading: comicsLoading } = useFetchComicsByCharacterQuery(id);
+  const { data: comicsData, isLoading: comicsLoading } =
+    useFetchComicsByCharacterQuery(id);
 
   const dispatch = useDispatch();
   const favorites = useSelector((state) => state.favorites.favorites);
-
-  
 
   useEffect(() => {
     const fetchSuperheroDetails = async () => {
       try {
         let marvelCharacter = data?.data?.results[0]?.name;
         if (marvelCharacter) {
-          marvelCharacter = marvelCharacter.replace(/\s*\(.*?\)\s*/g, "").trim();
+          marvelCharacter = marvelCharacter
+            .replace(/\s*\(.*?\)\s*/g, "")
+            .trim();
           const results = await searchSuperheroByName(marvelCharacter);
           if (results && results.length > 0) {
             setSuperheroDetails(results[0]);
@@ -221,7 +218,6 @@ function CharacterDetailPage() {
     }
   };
 
-
   return (
     <DetailContainer>
       <TopSection>
@@ -235,13 +231,12 @@ function CharacterDetailPage() {
             {character.description || "No description available."}
           </CharacterDescription>
         </CharacterInfo>
-       <FavoriteButton onClick={toggleFavorite} isFavorite={isFavorite}>
+        <FavoriteButton onClick={toggleFavorite} isFavorite={isFavorite}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 6.5 3.5 5 5.5 5c1.54 0 3.04.99 3.57 2.36h1.87C15.46 5.99 16.96 5 18.5 5 20.5 5 22 6.5 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
           </svg>
         </FavoriteButton>
       </TopSection>
-
 
       {/* Stats */}
       {superheroDetails && (
