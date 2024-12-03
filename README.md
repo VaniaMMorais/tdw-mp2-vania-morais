@@ -3,4 +3,4 @@ Projeto feito no contexto da unidade curricular Tecnologias e Desenvolvimento We
 
 Link Netlify: https://tdw-mp2-vania-morais.netlify.app/about
 
-Link Relatório: 
+Link Relatório: https://drive.google.com/file/d/19DId0rmPXQ1y_iKSRw5XJW4R06fNQw_x/view?usp=sharing
